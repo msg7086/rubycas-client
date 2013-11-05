@@ -36,6 +36,12 @@ module CASClient
     end
 
     def parse(raw_text, options)
+      raw_text.gsub! '<cas:attribute>', '<cas:attribute'
+      raw_text.gsub! '<cas:name>', 'name="'
+      raw_text.gsub! '</cas:name>', '"'
+      raw_text.gsub! '<cas:value>', 'value="'
+      raw_text.gsub! '</cas:value>', '"'
+      raw_text.gsub! '</cas:attribute>', '/>'
       raise BadResponseException, 
         "CAS response is empty/blank." if raw_text.blank?
       @parse_datetime = Time.now
